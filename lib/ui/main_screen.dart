@@ -1,5 +1,3 @@
-import 'package:api_covid/api/api_service.dart';
-import 'package:api_covid/model/hospital.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {

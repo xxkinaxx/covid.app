@@ -1,5 +1,6 @@
 import 'package:api_covid/api/api_service.dart';
 import 'package:api_covid/model/hoaxes.dart';
+import 'package:api_covid/ui/hoax_detail.dart';
 import 'package:flutter/material.dart';
 
 class HoaxScreen extends StatefulWidget {
@@ -29,11 +30,18 @@ class _HoaxScreenState extends State<HoaxScreen> {
                 child: CircularProgressIndicator(),
               );
             } else {
-              return ListView.builder(itemBuilder: (BuildContext context, int index){
+              List<Hoaxes> hoax = snapshot.data as List<Hoaxes>;
+              return ListView.builder(itemBuilder: (BuildContext context, index){
+                final hoaxItem = hoax[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5.0),
                   child: InkWell(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.push(
+                          context, MaterialPageRoute(
+                          builder: (context) => HoaxDetail(hoaxItem : hoaxItem),
+                      ));
+                    },
                     child: ListTile(
                       title: Text(
                         '${snapshot.data?[index].title}',
@@ -48,7 +56,6 @@ class _HoaxScreenState extends State<HoaxScreen> {
               itemCount: snapshot.data?.length,);
             }
           },
-          
         ),
       ),
     );

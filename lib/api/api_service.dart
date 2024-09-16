@@ -52,6 +52,7 @@ class ApiService{
       return null;
     }
   }
+
   Future<List<Stats>?> getStats() async{
     var url = Uri.parse('${baseurl}stats');
     print(url);
@@ -59,12 +60,16 @@ class ApiService{
     var response = await http.get(url);
     print(response.body);
 
-    if(response.statusCode == 200){
-      List<dynamic> jsonResponse =jsonDecode(response.body);
-      return jsonResponse.map((stat) => Stats.fromJson(stat)).toList();
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      final List<dynamic> regions = data['regions'];
+
+      List<Stats> statsList = regions.map((region) => Stats.fromJson(region)).toList();
+
+      return statsList;
     } else {
-      print('Request gagal, status: ${response.statusCode}');
-      return null;
+      throw Exception('Failed to load data');
     }
   }
 }
